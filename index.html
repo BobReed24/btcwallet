@@ -574,6 +574,9 @@
 
     document.getElementById('qa-amt').addEventListener('input', renderFeePreview);
 
+    // Seed demo transactions if none exist
+    seedRandomTxsIfEmpty();
+
     // First paint
     renderAll();
   </script>
