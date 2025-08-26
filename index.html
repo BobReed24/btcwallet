@@ -574,11 +574,14 @@
 
     document.getElementById('qa-amt').addEventListener('input', renderFeePreview);
 
-    // Seed demo transactions if none exist
-    seedRandomTxsIfEmpty();
+   document.addEventListener("DOMContentLoaded", () => {
+  // Seed demo transactions if needed
+ 	 seedRandomTxsIfEmpty();
 
-    // First paint
-    renderAll();
+  // Initial render
+ 	 renderAll();
+	});
+
   </script>
 </body>
 </html>
