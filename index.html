@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<link rel="icon" href="images/icon.ico" type="image/x-icon">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -201,7 +202,7 @@
         <div class="balance">
           <div>
             <div class="amount" id="balance-btc">0.00000000 BTC</div>
-            <div class="fiat" id="balance-usd">≈ $0.00 USD <span class="mini" id="rate-note">(rate: $40,000/BTC)</span></div>
+            <div class="fiat" id="balance-usd">≈ $0.00 USD <span class="mini" id="rate-note">(rate: $110,000/BTC)</span></div>
           </div>
           <div class="row">
             <!-- debug controls moved to the Developer tools menu (gear icon) -->
@@ -574,14 +575,11 @@
 
     document.getElementById('qa-amt').addEventListener('input', renderFeePreview);
 
-   document.addEventListener("DOMContentLoaded", () => {
-  // Seed demo transactions if needed
- 	 seedRandomTxsIfEmpty();
+    // Render transactions
+    renderTxs();
 
-  // Initial render
- 	 renderAll();
-	});
-
+    // First paint
+    renderAll();
   </script>
 </body>
 </html>
