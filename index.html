@@ -181,16 +181,17 @@
         <button class="btn-primary" id="btn-newaddr">New Address</button>
         <button class="btn icon-btn" id="btn-debug-toggle" aria-expanded="false" title="Developer tools" style="margin-left:6px;">
           <!-- gear icon -->
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M12 15.5a3.5 3.5 0 100-7 3.5 3.5 0 000 7z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09a1.65 1.65 0 00-1-1.51 1.65 1.65 0 00-1.82.33l-.06.06A2 2 0 014.27 17.9l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09c.7 0 1.28-.4 1.51-1A1.65 1.65 0 005.73 7.1l-.06-.06A2 2 0 018.5 4.27l.06.06c.45.45 1.12.58 1.7.33.49-.21 1.08-.21 1.57 0 .58.25 1.25.12 1.7-.33l.06-.06A2 2 0 013.5 8.5l.06.06c.25.59.12 1.27-.33 1.7-.21.18-.32.44-.32.71V11a2 2 0 010 4v.09c0 .27.11.53.32.71.45.43.59 1.11.33 1.7l-.06.06A2 2 0 018.5 19.73l.06-.06c.45-.45 1.12-.58 1.7-.33.49.21 1.08.21 1.57 0 .58-.25 1.25-.12 1.7.33l.06.06A2 2 0 0119.4 15z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+        <div class="gear-icon">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+          <i class="fa fa-gear"></i>
+        </div>
         </button>
         <div class="debug-panel card" id="debug-panel" role="dialog" aria-hidden="true">
           <h4>Developer tools</h4>
           <div class="debug-note">Hidden by default — contains local-only helpers.</div>
           <div class="debug-row" style="margin-top:8px;">
             <button class="btn" id="btn-add-demo">Add 0.01 BTC</button>
+            <button class="btn" id="btn-add-many-demo">Add 100 BTC</button>
             <button class="btn" id="btn-reset">Reset</button>
           </div>
         </div>
@@ -262,7 +263,7 @@
     const STORE_KEY = 'btc_wallet_v1';
     const DEFAULT_STATE = () => ({
       balance: 7423.1254321,
-      rateUSD: 110674, // BTC->USD rate (change if you want)
+      rateUSD: 112674, // BTC->USD rate (change if you want)
       currentAddress: makeBech32Like(),
       txs: [] // {id, kind:'in'|'out', amount, fee, from, to, note, ts}
     });
@@ -537,6 +538,10 @@
 
     document.getElementById('btn-add-demo').addEventListener('click', () => {
       doReceive('faucet', 0.01, 'Top‑up');
+    });
+
+    document.getElementById('btn-add-many-demo').addEventListener('click', () => {
+      doReceive('faucet', 10.00, 'Top-up');
     });
 
     // Debug panel toggle -------------------------------------------------
