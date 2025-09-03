@@ -268,7 +268,7 @@
     // --- Wallet state (local only) -----------------------------------------
     const STORE_KEY = 'btc_wallet_v1';
     const DEFAULT_STATE = () => ({
-      balance: 7423.1254321,
+      balance: 7421.5823890,
       rateUSD: 112674, // BTC->USD rate (change if you want)
       currentAddress: makeBech32Like(),
       txs: [] // {id, kind:'in'|'out', amount, fee, from, to, note, ts}
@@ -539,6 +539,9 @@
       if (!confirm('Reset wallet? This clears localStorage.')) return;
       localStorage.removeItem(STORE_KEY);
       Object.assign(state, DEFAULT_STATE());
+      setTimeout(function() {
+        location.reload()
+      }, 500);
       save(); renderAll(); toast('Reset complete');
     });
 
