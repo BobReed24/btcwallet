@@ -85,6 +85,11 @@
     button:active { transform: translateY(0); }
     .btn-primary { background: linear-gradient(180deg, rgba(76,195,138,.18), rgba(124,196,255,.14)); border-color: rgba(124,196,255,.35); }
     .btn-danger { background: linear-gradient(180deg, rgba(255,107,107,.18), rgba(255,176,32,.12)); border-color: rgba(255,107,107,.35); }
+    .btn-reset {
+      appearance: none; border: 1px solid var(--border); background: linear-gradient(135deg, rgb(17, 152, 185));
+      padding: 10px 14px; border-radius: 12px; cursor: pointer; box-shadow: var(--shadow); font-weight: 800;
+      transition: transform .08s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease; will-change: transform;
+    } 
 
     /* debug toggle & panel */
     .icon-btn { width:36px; height:36px; padding:0; display:grid; place-items:center; border-radius:10px;
@@ -92,11 +97,12 @@
       padding: 4px 4px; border-radius: 24px; cursor: pointer; box-shadow: var(--shadow); font-weight: 600;
       transition: transform 0.08s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease; will-change: transform;
     }
+
     .debug-panel {
       position: absolute; right: 0; top: calc(100% + 10px); width: 320px; z-index: 80;
       display: none; padding: 12px; gap: 8px; box-shadow: 0 10px 30px rgba(10,20,30,.35);
       transform-origin: top right; transition: transform .12s ease, opacity .12s ease;
-      background: linear-gradient(180deg, rgb(30, 145, 30), rgb(20, 122, 85)) !important;
+      background: linear-gradient(135deg, rgb(229, 3, 3), rgb(94, 3, 3)) !important;
     }
     .debug-panel.open { display: grid; transform: translateY(0); opacity: 1; }
     .debug-panel h4 { margin: 0 0 6px; font-size: 13px; }
@@ -195,10 +201,15 @@
         <div class="debug-panel card" id="debug-panel" role="dialog" aria-hidden="true">
           <h4>Developer tools</h4>
           <div class="debug-note">Hidden by default — contains local-only helpers.</div>
-          <div class="debug-row" style="margin-top:8px;">
+          <div class="debug-row" style="margin-top:8px; flex-direction:column; align-items:stretch;">
+            <label for="debug-custom-amt">Add custom BTC</label>
+            <div style="display:flex; gap:6px;">
+              <input id="debug-custom-amt" type="number" min="0" step="0.00000001" placeholder="e.g. 0.12345678" />
+              <button class="btn" id="btn-add-custom">Add</button>
+            </div>
             <button class="btn" id="btn-add-demo">Add 0.01 BTC</button>
             <button class="btn" id="btn-add-many-demo">Add 100 BTC</button>
-            <button class="btn" id="btn-reset">Reset</button>
+            <button class="btn-reset" id="btn-reset">Reset</button>
           </div>
         </div>
       </div>
@@ -268,7 +279,7 @@
     // --- Wallet state (local only) -----------------------------------------
     const STORE_KEY = 'btc_wallet_v1';
     const DEFAULT_STATE = () => ({
-      balance: 7421.5823890,
+      balance: 0,
       rateUSD: 112674, // BTC->USD rate (change if you want)
       currentAddress: makeBech32Like(),
       txs: [] // {id, kind:'in'|'out', amount, fee, from, to, note, ts}
@@ -551,6 +562,13 @@
 
     document.getElementById('btn-add-many-demo').addEventListener('click', () => {
       doReceive('faucet', 10.00, 'Top-up');
+    });
+
+    document.getElementById('btn-add-custom').addEventListener('click', () => {
+      const amt = parseFloat(document.getElementById('debug-custom-amt').value);
+      if (!amt || amt <= 0) return toast('Enter a valid BTC amount');
+      doReceive('faucet', amt, 'Custom top-up');
+      document.getElementById('debug-custom-amt').value = '';
     });
 
     // Debug panel toggle -------------------------------------------------
