@@ -300,7 +300,22 @@
       txs: [] // {id, kind:'in'|'out', amount, fee, from, to, note, ts}
     });
 
+    const state = load();
+
     // --- Utilities ------------------------------------------------------------
+    function save() { localStorage.setItem(STORE_KEY, JSON.stringify(state)); }
+    function load() {
+      try {
+        const j = localStorage.getItem(STORE_KEY);
+        return j ? JSON.parse(j) : DEFAULT_STATE();
+      } catch { return DEFAULT_STATE(); }
+    }
+
+    function formatBTC(v) { return (Number(v) || 0).toFixed(8); }
+    function formatUSD(v) {
+      return new Intl.NumberFormat(undefined, { style: 'currency', currency: 'USD' }).format(v);
+    }
+    function nowISO(ts = Date.now()) { return new Date(ts).toISOString(); }
 
   // Not real bech32, just looks the part (lowercase, digits, lengthy)
     function makeBech32Like() {
